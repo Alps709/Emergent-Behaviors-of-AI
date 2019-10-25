@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{2951005c-2f8f-4c26-b86d-53bfe886c7c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RenderEngine">
+      <UniqueIdentifier>{e95e59c5-527d-475e-92c8-6667e1548d50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\RenderEngine">
+      <UniqueIdentifier>{1b3be459-bcbb-47c0-82c9-d2e3849afe99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{206e7c79-c50a-4c01-8160-18aab171d38e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Characters">
+      <UniqueIdentifier>{9cfb62c7-1b33-407f-8ae1-04f250ee821b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Characters">
+      <UniqueIdentifier>{97c750d4-8e51-41db-bc5a-5dfacc4a4dbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object stuff">
+      <UniqueIdentifier>{06298b24-a50c-4cce-be7a-cc16cb512a54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object stuff">
+      <UniqueIdentifier>{971ff6ec-82ae-4837-8706-f31e6296a39c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\RenderEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="MasterRenderer.cpp">
+      <Filter>Source Files\RenderEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Object stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBufferInfo.cpp">
+      <Filter>Source Files\Object stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderLoader.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="TextLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SnekPart.cpp">
+      <Filter>Source Files\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Pill.cpp">
+      <Filter>Source Files\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Object stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Snek.cpp">
+      <Filter>Source Files\Characters</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="clock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\RenderEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="MasterRenderer.h">
+      <Filter>Header Files\RenderEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Obj.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLoader.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Object stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBufferInfo.h">
+      <Filter>Header Files\Object stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="TextLabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SnekPart.h">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Pill.h">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files\Object stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Snek.h">
+      <Filter>Header Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
