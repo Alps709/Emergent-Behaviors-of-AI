@@ -1,7 +1,7 @@
 #include "Pill.h"
 
 //Calls the base class constructor
-Pill::Pill(Mesh* _mesh, Shader* _shader, glm::vec3 _position) : Object(_mesh, _shader, _position)
+Pill::Pill(Mesh* _mesh, Shader* _shader, glm::vec2 _position) : Object(_mesh, _shader, _position)
 {
 	m_pillClock.Initialise();
 }

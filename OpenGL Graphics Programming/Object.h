@@ -13,14 +13,14 @@ class Object
 {
 public:
 	Object() = default;
-	Object(Mesh* _mesh, Shader* _shader, glm::vec3 _position);
-	virtual ~Object() = default;
+	Object(Mesh* _mesh, Shader* _shader, glm::vec2 _position);
+	virtual ~Object();
 
 	//Getters
-	glm::vec3 GetPosition() const { return m_position; }
+	glm::vec2 GetPosition() const { return m_position; }
 
 	//Setters
-	void SetPosition(glm::vec3 _pos);
+	void SetPosition(glm::vec2 _pos);
 	void SetTexture0(Texture* _tex);
 	/*void SetTexture1(Texture* _tex);*/
 
@@ -41,9 +41,9 @@ public:
 	void BindTexture(unsigned int _texNum) const;
 
 protected:
-	glm::vec3 m_position{0.0f, 0.0f, 0.0f};
+	glm::vec2 m_position{ 0.0f, 0.0f };
 	float m_rotationZ = 0.0f;
-	glm::vec3 m_scale{ 1.0f, 1.0f, 1.0f };
+	glm::vec2 m_scale{ 1.0f, 1.0f };
 	double m_colliderRadius = 10.0f;
 
 	glm::mat4 m_objectMat = glm::mat4(1.0f);

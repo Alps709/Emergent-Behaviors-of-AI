@@ -75,16 +75,13 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SnekPart.cpp">
-      <Filter>Source Files\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="Pill.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Object stuff</Filter>
     </ClCompile>
-    <ClCompile Include="Snek.cpp">
+    <ClCompile Include="Boid.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,20 +131,17 @@
     <ClInclude Include="GameManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SnekPart.h">
-      <Filter>Header Files\Characters</Filter>
-    </ClInclude>
     <ClInclude Include="Pill.h">
       <Filter>Header Files\Characters</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Header Files\Object stuff</Filter>
     </ClInclude>
-    <ClInclude Include="Snek.h">
-      <Filter>Header Files\Characters</Filter>
-    </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Boid.h">
+      <Filter>Header Files\Characters</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@
 #include "Object.h"
 #include "clock.h"
 #include "Pill.h"
-#include "Snek.h"
+#include "Boid.h"
 
 #include <fmod.hpp>
 
@@ -45,12 +45,9 @@ private:
 
 	///Objects
 	//Snek
-	Snek* m_snek = nullptr;
+	std::vector<Boid> m_boids;
+	Mesh* m_boidMesh = nullptr;
 
-	//Pills that the snek will collect for points
-	std::vector<Pill> m_pillObjects;
-	Mesh* m_pillMesh = nullptr;
-	Texture* m_pillTexture = nullptr;
 
 	//Game Background
 	Object m_backgroundObject;

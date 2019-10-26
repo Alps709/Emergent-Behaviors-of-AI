@@ -17,31 +17,15 @@ GameManager::GameManager()
 	//Create defaut shader
 	m_defaultShader = new Shader();
 
-	//Set pill mesh and texture
-	m_pillMesh = new Mesh(Objects::verticesPill, Objects::indicesPill);
-	m_pillTexture = new Texture("Resources/Images/Circle.png", 0);
+	m_boidMesh = new Mesh(Objects::verticesBoid, Objects::indicesBoid);
 
 	//Set background mesh and texture
 	m_backgroundMesh = new Mesh(Objects::verticesBackground, Objects::indicesBackground);
 	m_backgroundTexture = new Texture("Resources/Images/Grass.png", 0);
 
 	//Create 1 background object
-	m_backgroundObject = Object(m_backgroundMesh, m_defaultShader, glm::vec3(0.0f, 0.0f, 0.0f));
+	m_backgroundObject = Object(m_backgroundMesh, m_defaultShader, glm::vec2(0.0f, 0.0f));
 	m_backgroundObject.SetTexture0(m_backgroundTexture);
-
-	//Create random generator for pill positions
-	std::random_device dev;
-	std::mt19937 rng(dev());
-	const std::uniform_real_distribution<double> randXPos(-Utils::HSCREEN_WIDTH + 50, Utils::HSCREEN_WIDTH - 50);
-	const std::uniform_real_distribution<double> randYPos(-Utils::HSCREEN_HEIGHT + 50, Utils::HSCREEN_HEIGHT - 50);
-
-	////Create 10 pill models
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	Pill myTempObject = Pill(m_pillMesh, m_defaultShader, glm::vec3(randXPos(rng), randYPos(rng), 0.0f));
-	//	myTempObject.SetTexture0(m_pillTexture);
-	//	m_pillObjects.push_back(myTempObject);
-	//}
 
 	//Create the text objects
 	m_scoreText = new TextLabel("Score: 0", "Resources/Fonts/arial.ttf", glm::vec2(-Utils::HSCREEN_WIDTH + 20.0f, Utils::HSCREEN_HEIGHT - 40.0f));
@@ -50,8 +34,9 @@ GameManager::GameManager()
 	m_overText = new TextLabel("Game Over!", "Resources/Fonts/kirbyss.ttf", glm::vec2(-625, 200), glm::vec3(1.0f, 0.0f, 0.0f), 4);
 	m_overScoreText = new TextLabel("Your final score is: ", "Resources/Fonts/arial.ttf", glm::vec2(-600, -200), glm::vec3(1.0f, 0.0f, 0.0f), 1.5f);
 
-	//Create snek
-	m_snek = new Snek(&m_pillObjects, m_scoreText, m_audioSystem, m_yeatSound, m_shoopSound);
+	//Create boids
+	Boid myBoid = Boid(m_boidMesh, m_defaultShader, glm::vec2(0.0f, 0.0f));
+	m_boids.push_back(myBoid);
 
 	//Create the camera
 	//Pass in false to say it is not using an orthographic view initially (it will then use a perspective view projection)
@@ -64,17 +49,15 @@ GameManager::~GameManager()
 	//Delete all the heap allocated objects and clean up others
 	m_yeatSound->release();
 	m_audioSystem->release();
-	delete m_snek;
 	delete m_scoreText;
 	delete m_overText;
 	delete m_overScoreText;
 	delete m_menuTitleText;
 	delete m_menuInstructText;
 	delete m_timeText;
-	delete m_pillMesh;
-	delete m_pillTexture;
 	delete m_backgroundMesh;
 	delete m_backgroundTexture;
+	delete m_boidMesh;
 	delete m_defaultShader;
 	delete m_camera;
 }
@@ -130,53 +113,6 @@ void GameManager::AudioInitialise()
 
 }
 
-//Do substance abuse here
-void GameManager::ProcessPills()
-{
-	//Find all pills that have existed for 15 seconds and erase them from the vector
-	for (auto pillIt = m_pillObjects.begin(); pillIt != m_pillObjects.end();)
-	{
-		if (pillIt->GetTimeAlive() > 5.0)
-		{
-			//Pill has been alive for more than 5 seconds
-			pillIt = m_pillObjects.erase(pillIt);
-
-			//Play sound
-			const FMOD_RESULT play = m_audioSystem->playSound(m_shoopSound, 0, false, 0);
-			if (play != FMOD_OK)
-			{
-				std::cout << "Failed to play sound: Thump.wav" << std::endl;
-			}
-		}
-		else
-		{
-			//Only move the iterator forward if nothing was erased
-			//Because it is automatically moved forward after erase() is called
-			++pillIt;
-		}
-	}
-
-	m_pillSpawnTimer += m_clock.GetDeltaTick();
-
-	//Spawn a pill every 333 milliseconds
-	if (m_pillSpawnTimer > 333.333333)
-	{
-		//Reset timer
-		m_pillSpawnTimer = 0.0;
-
-		//Create random generator for pill positions
-		std::random_device dev;
-		std::mt19937 rng(dev());
-		const std::uniform_real_distribution<double> randXPos(-Utils::HSCREEN_WIDTH + 50, Utils::HSCREEN_WIDTH - 50);
-		const std::uniform_real_distribution<double> randYPos(-Utils::HSCREEN_HEIGHT + 50, Utils::HSCREEN_HEIGHT - 50);
-
-		//Create 1 pill model
-		Pill myTempObject = Pill(m_pillMesh, m_defaultShader, glm::vec3(randXPos(rng), randYPos(rng), 0.0f));
-		myTempObject.SetTexture0(m_pillTexture);
-		m_pillObjects.push_back(myTempObject);
-	}
-}
-
 void GameManager::Update(int _mousePosX, int _mousePosY)
 {
 	//Update clock
@@ -185,10 +121,7 @@ void GameManager::Update(int _mousePosX, int _mousePosY)
 	if (m_gameState == GAME_PLAY)
 	{
 		//Process snek movement
-		m_snek->Process(m_gameState, m_gameScore, _mousePosX, _mousePosY, m_clock.GetDeltaTick());
-
-		//Process pill spawning and despawning
-		ProcessPills();
+		m_boids[0].Process(m_gameState, _mousePosX, _mousePosY, m_clock.GetDeltaTick());
 	}
 
 	//Update sounds
@@ -213,14 +146,8 @@ void GameManager::Render()
 	}
 	else if (m_gameState == GAME_PLAY)
 	{
-		//Render pills
-		for (auto it = m_pillObjects.begin(); it != m_pillObjects.end(); ++it)
-		{
-			it->Render(*m_camera);
-		}
-
 		//Render snek
-		m_snek->Render(*m_camera);
+		m_boids[0].Render(*m_camera);
 
 		m_scoreText->Render();
 	}

@@ -158,8 +158,7 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
-    <ClCompile Include="Snek.cpp" />
-    <ClCompile Include="SnekPart.cpp" />
+    <ClCompile Include="Boid.cpp" />
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexBufferInfo.cpp" />
@@ -179,8 +178,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
-    <ClInclude Include="Snek.h" />
-    <ClInclude Include="SnekPart.h" />
+    <ClInclude Include="Boid.h" />
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Utils.h" />

@@ -7,7 +7,7 @@ class Pill final : public Object
 {
 public:
 
-	Pill(Mesh* _mesh, Shader* _shader, glm::vec3 _position);
+	Pill(Mesh* _mesh, Shader* _shader, glm::vec2 _position);
 	~Pill() = default;
 
 	void Render(Camera& _myCamera) override;
