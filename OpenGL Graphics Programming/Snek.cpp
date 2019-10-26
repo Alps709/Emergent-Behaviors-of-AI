@@ -8,23 +8,14 @@
 #include <corecrt_math.h>
 
 
-Snek::Snek(std::vector<Pill>* _pillObjects, TextLabel* _scoreText, FMOD::System* _audioSystem, FMOD::Sound* _yeatSound, FMOD::Sound* _shoopSound, unsigned _snekStartSize)
-	: m_pillObjects(_pillObjects), m_scoreText(_scoreText), m_audioSystem(_audioSystem), m_yeatSound(_yeatSound), m_shoopSound(_shoopSound)
+Snek::Snek()
 {
 	m_snekClock.Initialise();
 	
 	//Set Snake body circle's mesh and texture
-	m_snekMesh = new Mesh(Objects::verticesSnekPart, Objects::indicesSnekPart);
-	m_snekShader = new Shader();
-	m_snekTexture = new Texture("Resources/Images/Circle.png", 0);
 
-	//Create 100 snek body circle models
-	for (unsigned int i = 0; i < _snekStartSize; i++)
-	{
-		SnekPart myTempObject = SnekPart(m_snekMesh, m_snekShader, glm::vec3(0, 0, 0));
-		myTempObject.SetTexture0(m_snekTexture);
-		m_snekObjects.push_back(myTempObject);
-	}
+	m_boidObject = SnekPart(new Mesh(Objects::verticesSnekPart, Objects::indicesSnekPart), new Shader(), glm::vec3(0, 0, 0));
+	m_boidObject.SetTexture0(new Texture("Resources/Images/Circle.png", 0));
 }
 
 
