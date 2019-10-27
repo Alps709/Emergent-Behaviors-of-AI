@@ -34,20 +34,20 @@ void Boid::Process(GameState& _gameState, int _mouseX, int _mouseY, double _delt
 
 	m_velocity += m_acceleration;
 
-	//Limit velocity
-	if(glm::length(m_velocity) > m_maxSpeed)
-	{
-		m_velocity = glm::normalize(m_velocity) * m_maxSpeed;
-	}
-	
+	////Limit velocity
+	//if(glm::length(m_velocity) > m_maxSpeed)
+	//{
+	//	m_velocity = glm::normalize(m_velocity) * m_maxSpeed;
+	//}
+
+	//Apply velocity to movement (affected by delta time)
 	m_position += m_velocity * static_cast<float>(_deltaTime);
 
+	//Reset acceleration every update
 	m_acceleration *= 0.0f;
 
 	//Update model matrix so the boid faces in the direction it is moving
 	SetPRS(m_position.x, m_position.y, glm::degrees(std::atan2(m_velocity.y, m_velocity.x)) - 90, 1.0f, 1.0f);
-
-	UpdateModelMat();
 }
 
 void Boid::SetShaderUniforms(glm::mat4 _pvm) const
@@ -75,21 +75,29 @@ void Boid::Arrive(glm::vec2 _target)
 {
 	//Calculate the desired vector
 	glm::vec2 desiredVec = _target - m_position;
+	float desiredVecLength = glm::length(desiredVec);
 
-	if(glm::length(desiredVec) <= 250)
+	desiredVec = glm::normalize(desiredVec);
+	if (desiredVecLength <= 250)
 	{
-		const float arriveSpeed = Utils::remap(glm::length(desiredVec), 0, 100, 0, m_maxSpeed);
-		desiredVec = glm::normalize(desiredVec) * arriveSpeed;
+		const float arriveSpeed = Utils::remap(desiredVecLength, 0.0f, 250.0f, 0.0f, m_maxSpeed);
+		desiredVec *= arriveSpeed;
 	}
 	else
 	{
 		//Limit the magnitude to max speed
-		desiredVec = glm::normalize(desiredVec);
-		desiredVec *= m_maxSpeed;
+		if (glm::length(desiredVec) > m_maxSpeed)
+		{
+			desiredVec *= m_maxSpeed;
+		}
 	}
 
-	glm::vec2 steeringVec = desiredVec - m_velocity;
-	steeringVec = glm::normalize(steeringVec);
-	steeringVec *= m_maxForce;
-	m_acceleration += steeringVec;
+	//Calculate steering force
+	glm::vec2 steeringForce = desiredVec - m_velocity;
+	if(glm::length(steeringForce) > m_maxForce)
+	{
+		//Limit steering force
+		steeringForce = glm::normalize(steeringForce) * m_maxForce;
+	}
+	m_acceleration += steeringForce;
 }

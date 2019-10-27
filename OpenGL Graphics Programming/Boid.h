@@ -30,7 +30,7 @@ private:
 	glm::vec2 m_acceleration;
 	glm::vec2 m_force;
 
-	const float m_maxSpeed = 1.0f;
+	const float m_maxSpeed = 0.5f;
 	const float m_maxForce = 0.005f;
 
 	double m_snekColliderRadius = 20.0f;
