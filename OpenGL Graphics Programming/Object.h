@@ -26,11 +26,13 @@ public:
 
 	//Getters
 	Mesh* GetMesh() const { return m_mesh; }
-	glm::mat4 GetModelMat() const { return m_objectMat; }
+	glm::mat4 GetModelMat() const { return m_modelMat; }
 	virtual double GetRadius() const { return m_colliderRadius; };
 
 	//Change m_position, rotation and m_scale
 	void ChangePRS(float _translateX, float _translateY, float _rotationAngle, float _scaleX, float _scaleY);
+	void SetPRS(float _translateX, float _translateY, float _rotationAngle, float _scaleX, float _scaleY);
+	
 	void UpdateModelMat();
 	
 	//Rendering stuff
@@ -46,7 +48,7 @@ protected:
 	glm::vec2 m_scale{ 1.0f, 1.0f };
 	double m_colliderRadius = 10.0f;
 
-	glm::mat4 m_objectMat = glm::mat4(1.0f);
+	glm::mat4 m_modelMat = glm::mat4(1.0f);
 
 	Mesh* m_mesh;
 	Shader* m_shader;

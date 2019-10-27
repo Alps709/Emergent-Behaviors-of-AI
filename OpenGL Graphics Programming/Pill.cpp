@@ -15,7 +15,7 @@ void Pill::Render(Camera& _myCamera)
 	m_mesh->Bind();
 	m_shader->Bind();
 
-	const glm::mat4 pvmMat = projViewMat * m_objectMat;
+	const glm::mat4 pvmMat = projViewMat * m_modelMat;
 
 	//Prepare the object for drawing
 	BindTexture(0);

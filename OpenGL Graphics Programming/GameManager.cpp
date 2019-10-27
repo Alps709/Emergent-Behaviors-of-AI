@@ -94,21 +94,21 @@ void GameManager::AudioInitialise()
 		}
 
 		//Create background music
-		result = m_audioSystem->createSound("Resources/Audio/Jet Set Run.mp3", FMOD_LOOP_NORMAL, 0, &m_trackBackground);
-		if (result != FMOD_OK)
-		{
-			std::cout << "Failed to load sound: Jet Set Run.mp3" << std::endl;
-		}
-		else
-		{
-			//Created sound
-			//Start playing background music
-			const FMOD_RESULT play = m_audioSystem->playSound(m_trackBackground, 0, false, 0);
-			if (play != FMOD_OK)
-			{
-				std::cout << "Failed to play background track: You Say Run.mp3" << std::endl;
-			}
-		}
+		//result = m_audioSystem->createSound("Resources/Audio/Jet Set Run.mp3", FMOD_LOOP_NORMAL, 0, &m_trackBackground);
+		//if (result != FMOD_OK)
+		//{
+		//	std::cout << "Failed to load sound: Jet Set Run.mp3" << std::endl;
+		//}
+		//else
+		//{
+		//	//Created sound
+		//	//Start playing background music
+		//	const FMOD_RESULT play = m_audioSystem->playSound(m_trackBackground, 0, false, 0);
+		//	if (play != FMOD_OK)
+		//	{
+		//		std::cout << "Failed to play background track: You Say Run.mp3" << std::endl;
+		//	}
+		//}
 	}
 
 }

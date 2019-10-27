@@ -49,10 +49,24 @@ void Object::ChangePRS(float _translateX, float _translateY, float _rotationAngl
 	UpdateModelMat();
 }
 
+void Object::SetPRS(float _translateX, float _translateY, float _rotationAngle, float _scaleX, float _scaleY)
+{
+	m_position = glm::vec2(_translateX, _translateY);
+
+	//Add new rotation and cap it to 360
+	m_rotationZ = _rotationAngle;
+	m_rotationZ = fmod(m_rotationZ, 360.0f);
+
+	m_scale = glm::vec2(_scaleX, _scaleY);
+
+	//Update the stored model matrix
+	UpdateModelMat();
+}
+
 void Object::UpdateModelMat()
 {
 	//Update the stored model matrix
-	m_objectMat = Math::Create2DModelMatrix(m_position.x, m_position.y, m_rotationZ, m_scale.x, m_scale.y);
+	m_modelMat = Math::Create2DModelMatrix(m_position.x, m_position.y, m_rotationZ, m_scale.x, m_scale.y);
 }
 
 void Object::Render(Camera& _myCamera)
@@ -64,7 +78,7 @@ void Object::Render(Camera& _myCamera)
 	m_mesh->Bind();
 	m_shader->Bind();
 
-	glm::mat4 pvmMat = projViewMat * m_objectMat;
+	glm::mat4 pvmMat = projViewMat * m_modelMat;
 
 	//Prepare the object for drawing
 	BindTexture(0);
