@@ -20,8 +20,11 @@ namespace Math
 		return translationMatrix * rotationMatrixZ * scaleMatrix;
 	}
 
-	/*static float LookAt2D(glm::vec2 _a, glm::vec2 _b)
+	inline void LimitVector2D(glm::vec2& _vec, float _maxVal)
 	{
-		return glm::degrees(acos(glm::dot(_a, _b)/glm::length(_a) * glm::length(_b)));
-	}*/
+		if(glm::length(_vec) > _maxVal)
+		{
+			_vec = glm::normalize(_vec) * _maxVal;
+		}
+	}
 }

@@ -1,12 +1,14 @@
 #include "Boid.h"
 #include "Utils.h"
+#include "Math.h"
+#include "GameManager.h"
 
 
 Boid::Boid(Mesh* _mesh, Shader* _shader, glm::vec2 _position) : Object(_mesh, _shader,  _position)
 {
 	m_position = glm::vec2(0.0f, 0.0f);
 	m_velocity = glm::vec2(0.0, 0.0f);
-	m_acceleration = glm::vec2(0.0001f, 0.0001f);
+	m_acceleration = glm::vec2(0.0f, 0.0f);
 }
 
 void Boid::Render(Camera& _myCamera)
@@ -30,8 +32,15 @@ void Boid::Render(Camera& _myCamera)
 
 void Boid::Process(GameplayState& _gameState, int _mouseX, int _mouseY, double _deltaTime)
 {
-	Arrive(glm::vec2(_mouseX, _mouseY));
-
+	if (GameManager::m_gameplayState == PLAY_SEEK)
+	{
+		Seek(glm::vec2(_mouseX, _mouseY));
+	}
+	else if(GameManager::m_gameplayState == PLAY_ARRIVE)
+	{
+		Arrive(glm::vec2(_mouseX, _mouseY));
+	}
+	
 	m_velocity += m_acceleration;
 
 	////Limit velocity
@@ -62,13 +71,13 @@ void Boid::Seek(glm::vec2 _target)
 	glm::vec2 desiredVec = _target - m_position;
 
 	//Limit the magnitude to max speed
-	desiredVec = glm::normalize(desiredVec);
-	desiredVec *= m_maxSpeed;
+	Math::LimitVector2D(desiredVec, m_maxSpeed);
 
 	glm::vec2 steeringVec = desiredVec - m_velocity;
-	steeringVec = glm::normalize(steeringVec);
-	steeringVec *= m_maxForce;
+	Math::LimitVector2D(steeringVec, m_maxForce);
+
 	m_acceleration += steeringVec;
+	Math::LimitVector2D(m_acceleration, m_maxAcceleration);
 }
 
 void Boid::Arrive(glm::vec2 _target)
@@ -78,6 +87,7 @@ void Boid::Arrive(glm::vec2 _target)
 	float desiredVecLength = glm::length(desiredVec);
 
 	desiredVec = glm::normalize(desiredVec);
+	//Distance in pixels
 	if (desiredVecLength <= 250)
 	{
 		const float arriveSpeed = Utils::remap(desiredVecLength, 0.0f, 250.0f, 0.0f, m_maxSpeed);
@@ -86,18 +96,13 @@ void Boid::Arrive(glm::vec2 _target)
 	else
 	{
 		//Limit the magnitude to max speed
-		if (glm::length(desiredVec) > m_maxSpeed)
-		{
-			desiredVec *= m_maxSpeed;
-		}
+		Math::LimitVector2D(desiredVec, m_maxSpeed);
 	}
 
 	//Calculate steering force
 	glm::vec2 steeringForce = desiredVec - m_velocity;
-	if(glm::length(steeringForce) > m_maxForce)
-	{
-		//Limit steering force
-		steeringForce = glm::normalize(steeringForce) * m_maxForce;
-	}
+	Math::LimitVector2D(steeringForce, m_maxForce);
+
 	m_acceleration += steeringForce;
+	Math::LimitVector2D(m_acceleration, m_maxAcceleration);
 }

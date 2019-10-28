@@ -32,10 +32,13 @@ public:
 
 	void AudioInitialise();
 
-	void ProcessPills();
-
 	void Update(int _mousePosX, int _mousePosY);
 	void Render();
+
+	std::vector<Boid>& GetBoids();
+	Boid MakeBoid() const;
+
+	TextLabel* m_boidStateText = nullptr;
 
 	inline static GameState m_gameState = GAME_MENU;
 	inline static GameplayState m_gameplayState = PLAY_SEEK;
@@ -44,7 +47,6 @@ private:
 	//Game variables
 	unsigned int m_gameScore = 0;
 	
-
 	//Clock
 	CClock m_clock;
 	double m_pillSpawnTimer = 0.0;
@@ -53,10 +55,9 @@ private:
 	Camera* m_camera = nullptr;
 
 	///Objects
-	//Snek
+	//Boids
 	std::vector<Boid> m_boids;
 	Mesh* m_boidMesh = nullptr;
-
 
 	//Game Background
 	Object m_backgroundObject;
@@ -69,10 +70,7 @@ private:
 	//Text
 	TextLabel* m_menuTitleText = nullptr;
 	TextLabel* m_menuInstructText = nullptr;
-	TextLabel* m_overText = nullptr;
-	TextLabel* m_overScoreText = nullptr;
-	TextLabel* m_scoreText = nullptr;
-	TextLabel* m_timeText = nullptr;
+	
 
 	//Audio
 	inline static FMOD::System* m_audioSystem = nullptr;

@@ -28,13 +28,11 @@ GameManager::GameManager()
 	m_backgroundObject.SetTexture0(m_backgroundTexture);
 
 	//Create the text objects
-	m_scoreText = new TextLabel("Score: 0", "Resources/Fonts/arial.ttf", glm::vec2(-Utils::HSCREEN_WIDTH + 20.0f, Utils::HSCREEN_HEIGHT - 40.0f));
+	m_boidStateText = new TextLabel("Seek", "Resources/Fonts/arial.ttf", glm::vec2(-Utils::HSCREEN_WIDTH + 20.0f, Utils::HSCREEN_HEIGHT - 40.0f));
 	m_menuTitleText = new TextLabel("The Snek Game!", "Resources/Fonts/kirbyss.ttf", glm::vec2(-625, 200), glm::vec3(0.0f, 1.0f, 1.0f), 2.8f);
 	m_menuInstructText = new TextLabel("Press enter to play", "Resources/Fonts/kirbyss.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
-	m_overText = new TextLabel("Game Over!", "Resources/Fonts/kirbyss.ttf", glm::vec2(-625, 200), glm::vec3(1.0f, 0.0f, 0.0f), 4);
-	m_overScoreText = new TextLabel("Your final score is: ", "Resources/Fonts/arial.ttf", glm::vec2(-600, -200), glm::vec3(1.0f, 0.0f, 0.0f), 1.5f);
 
-	//Create boids
+	//Create boid
 	Boid myBoid = Boid(m_boidMesh, m_defaultShader, glm::vec2(0.0f, 0.0f));
 	m_boids.push_back(myBoid);
 
@@ -49,12 +47,9 @@ GameManager::~GameManager()
 	//Delete all the heap allocated objects and clean up others
 	m_yeatSound->release();
 	m_audioSystem->release();
-	delete m_scoreText;
-	delete m_overText;
-	delete m_overScoreText;
+	delete m_boidStateText;
 	delete m_menuTitleText;
 	delete m_menuInstructText;
-	delete m_timeText;
 	delete m_backgroundMesh;
 	delete m_backgroundTexture;
 	delete m_boidMesh;
@@ -120,8 +115,11 @@ void GameManager::Update(int _mousePosX, int _mousePosY)
 
 	if (m_gameState == GAME_PLAY)
 	{
-		//Process snek movement
-		m_boids[0].Process(m_gameplayState, _mousePosX, _mousePosY, m_clock.GetDeltaTick());
+		//Render boids
+		for (Boid& boid : m_boids)
+		{
+			boid.Process(m_gameplayState, _mousePosX, _mousePosY, m_clock.GetDeltaTick());
+		}
 	}
 
 	//Update sounds
@@ -146,23 +144,27 @@ void GameManager::Render()
 	}
 	else if (m_gameState == GAME_PLAY)
 	{
-		//Render snek
-		m_boids[0].Render(*m_camera);
+		//Render boids
+		for (Boid& boid : m_boids)
+		{
+			boid.Render(*m_camera);
+		}
 
-		m_scoreText->Render();
-	}
-	else if (m_gameState == GAME_OVER)
-	{
-		std::string tempText = "Your final score is: ";
-		tempText = tempText + std::to_string(m_gameScore);
-
-		m_overScoreText->SetText(tempText);
-		m_overText->Render();
-		m_overScoreText->Render();
+		m_boidStateText->Render();
 	}
 
 	glutSwapBuffers();
 	u_frameNum++;
+}
+
+std::vector<Boid>& GameManager::GetBoids()
+{
+	return m_boids;
+}
+
+Boid GameManager::MakeBoid() const
+{
+	return Boid(m_boidMesh, m_defaultShader, glm::vec2(0.0f, 0.0f));
 }
 
 

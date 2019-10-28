@@ -189,6 +189,19 @@ void ProcessInput()
 		Input::KeyState[49] = Input::INPUT_DOWN;
 	}
 
+	//Enter key is pressed
+	if (Input::KeyState[50] == Input::INPUT_DOWN || Input::KeyState[50] == Input::INPUT_DOWN_FIRST)
+	{
+		//Start game from menu by pressing the enter key
+		if (GameManager::m_gameState == GAME_PLAY)
+		{
+			//Set game state to play
+			GameManager::m_gameplayState = PLAY_ARRIVE;
+		}
+		//The key is has now been processed for a frame, so set it to the appropriate state
+		Input::KeyState[50] = Input::INPUT_DOWN;
+	}
+
 	////Move the camera up with the space button
 	//if (Input::KeyState[32] == Input::INPUT_DOWN || Input::KeyState[32] == Input::INPUT_DOWN_FIRST)
 	//{
@@ -210,11 +223,16 @@ void ProcessInput()
 	//	Input::SpecialKeyState[GLUT_KEY_SHIFT_L] = Input::INPUT_DOWN;
 	//}
 
-	////Mouse Input
-	//if (Input::MouseState[0] == Input::INPUT_DOWN_FIRST)
-	//{	//Left click
+	//Mouse Input
+	if (Input::MouseState[0] == Input::INPUT_DOWN_FIRST || Input::MouseState[0] == Input::INPUT_DOWN)
+	{	//Left click
+		if (GameManager::m_gameState == GAME_PLAY)
+		{
+			myGameManager->GetBoids().push_back(myGameManager->MakeBoid());
+		}
+		Input::MouseState[0] = Input::INPUT_DOWN;
+	}
 
-	//}
 	//if (Input::MouseState[2] == Input::INPUT_DOWN_FIRST)
 	//{ //Right click
 
