@@ -7,7 +7,7 @@ enum GameplayState;
 class Boid final : public Object
 {
 public:
-	Boid(Mesh* _mesh, Shader* _shader, glm::vec2 _position);
+	Boid(Mesh* _mesh, Shader* _shader, glm::vec2 _position, std::vector<Boid>& _boids);
 	~Boid() = default;
 	
 	void Render(Camera& _myCamera) override;
@@ -16,15 +16,20 @@ public:
 
 	void SetShaderUniforms(glm::mat4 _pvm) const;
 
-	double GetRadius() const override { return m_snekColliderRadius; }
+	double GetRadius() const override { return m_boidColliderRadius; }
 
 	void ApplyForce(glm::vec2 _force);
 
+	void WrapPos();
+
 	void Seek(glm::vec2 _target);
 	void Arrive(glm::vec2 _target);
+	void Allignment();
 
 private:
-	CClock m_snekClock;
+	std::vector<Boid>& m_boids;
+
+	CClock m_boidClock;
 
 	glm::vec2 m_velocity;
 	glm::vec2 m_acceleration;
@@ -34,6 +39,6 @@ private:
 	const float m_maxAcceleration = 0.075f;
 	const float m_maxForce = 0.01f;
 
-	double m_snekColliderRadius = 20.0f;
+	double m_boidColliderRadius = 50.0f;
 };
 

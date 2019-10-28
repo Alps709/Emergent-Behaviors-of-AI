@@ -7,9 +7,7 @@
 #include <detail/type_vec3.hpp>
 #include <detail/type_mat4x4.hpp>
 
-
-
-class Object
+class  Object
 {
 public:
 	Object() = default;

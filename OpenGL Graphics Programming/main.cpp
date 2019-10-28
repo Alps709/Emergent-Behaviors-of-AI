@@ -184,6 +184,7 @@ void ProcessInput()
 		{
 			//Set game state to play
 			GameManager::m_gameplayState = PLAY_SEEK;
+			myGameManager->m_boidStateText->SetText("Behavior: Seek");
 		}
 		//The key is has now been processed for a frame, so set it to the appropriate state
 		Input::KeyState[49] = Input::INPUT_DOWN;
@@ -197,6 +198,7 @@ void ProcessInput()
 		{
 			//Set game state to play
 			GameManager::m_gameplayState = PLAY_ARRIVE;
+			myGameManager->m_boidStateText->SetText("Behavior: Arrive");
 		}
 		//The key is has now been processed for a frame, so set it to the appropriate state
 		Input::KeyState[50] = Input::INPUT_DOWN;
