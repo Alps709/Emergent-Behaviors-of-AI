@@ -121,7 +121,7 @@ void GameManager::Update(int _mousePosX, int _mousePosY)
 	if (m_gameState == GAME_PLAY)
 	{
 		//Process snek movement
-		m_boids[0].Process(m_gameState, _mousePosX, _mousePosY, m_clock.GetDeltaTick());
+		m_boids[0].Process(m_gameplayState, _mousePosX, _mousePosY, m_clock.GetDeltaTick());
 	}
 
 	//Update sounds

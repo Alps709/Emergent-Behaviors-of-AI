@@ -16,6 +16,14 @@ enum GameState
 	GAME_OVER = 2,
 };
 
+enum GameplayState
+{
+	PLAY_SEEK = 0,
+	PLAY_ARRIVE = 1,
+	PLAY_PURSUE = 2,
+	PLAY_EVADE = 3
+};
+
 class GameManager
 {
 public:
@@ -30,6 +38,7 @@ public:
 	void Render();
 
 	inline static GameState m_gameState = GAME_MENU;
+	inline static GameplayState m_gameplayState = PLAY_SEEK;
 
 private:
 	//Game variables

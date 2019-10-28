@@ -28,7 +28,7 @@ void Boid::Render(Camera& _myCamera)
 	Mesh::Unbind();
 }
 
-void Boid::Process(GameState& _gameState, int _mouseX, int _mouseY, double _deltaTime)
+void Boid::Process(GameplayState& _gameState, int _mouseX, int _mouseY, double _deltaTime)
 {
 	Arrive(glm::vec2(_mouseX, _mouseY));
 

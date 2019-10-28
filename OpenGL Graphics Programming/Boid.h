@@ -2,7 +2,7 @@
 #include "Object.h"
 #include "clock.h"
 
-enum GameState;
+enum GameplayState;
 
 class Boid final : public Object
 {
@@ -12,7 +12,7 @@ public:
 	
 	void Render(Camera& _myCamera) override;
 
-	void Process(GameState& _gameState, int _mouseX, int _mouseY, double _deltaTime);
+	void Process(GameplayState& _gameState, int _mouseX, int _mouseY, double _deltaTime);
 
 	void SetShaderUniforms(glm::mat4 _pvm) const;
 

@@ -176,6 +176,19 @@ void ProcessInput()
 		Input::KeyState[32] = Input::INPUT_DOWN;
 	}
 
+	//Enter key is pressed
+	if (Input::KeyState[49] == Input::INPUT_DOWN || Input::KeyState[49] == Input::INPUT_DOWN_FIRST)
+	{
+		//Start game from menu by pressing the enter key
+		if (GameManager::m_gameState == GAME_PLAY)
+		{
+			//Set game state to play
+			GameManager::m_gameplayState = PLAY_SEEK;
+		}
+		//The key is has now been processed for a frame, so set it to the appropriate state
+		Input::KeyState[49] = Input::INPUT_DOWN;
+	}
+
 	////Move the camera up with the space button
 	//if (Input::KeyState[32] == Input::INPUT_DOWN || Input::KeyState[32] == Input::INPUT_DOWN_FIRST)
 	//{
