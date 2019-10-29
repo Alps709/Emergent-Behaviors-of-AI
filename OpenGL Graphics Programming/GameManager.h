@@ -21,7 +21,8 @@ enum GameplayState
 	PLAY_SEEK = 0,
 	PLAY_ARRIVE = 1,
 	PLAY_PURSUE = 2,
-	PLAY_EVADE = 3
+	PLAY_EVADE = 3,
+	PLAY_FLOCK = 4
 };
 
 class GameManager
@@ -36,7 +37,7 @@ public:
 	void Render();
 
 	std::vector<Boid>& GetBoids();
-	Boid MakeBoid() const;
+	Boid MakeBoid();
 
 	TextLabel* m_boidStateText = nullptr;
 
@@ -56,6 +57,7 @@ private:
 
 	///Objects
 	//Boids
+	int m_boidIDCounter = 0;
 	std::vector<Boid> m_boids;
 	Mesh* m_boidMesh = nullptr;
 

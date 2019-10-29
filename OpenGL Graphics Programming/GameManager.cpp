@@ -32,9 +32,8 @@ GameManager::GameManager()
 	m_menuTitleText = new TextLabel("The Snek Game!", "Resources/Fonts/kirbyss.ttf", glm::vec2(-625, 200), glm::vec3(0.0f, 1.0f, 1.0f), 2.8f);
 	m_menuInstructText = new TextLabel("Press enter to play", "Resources/Fonts/kirbyss.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
 
-	//Create boid
-	Boid myBoid = Boid(m_boidMesh, m_defaultShader, glm::vec2(0.0f, 0.0f));
-	m_boids.push_back(myBoid);
+	//Create original boid
+	m_boids.push_back(MakeBoid());
 
 	//Create the camera
 	//Pass in false to say it is not using an orthographic view initially (it will then use a perspective view projection)
@@ -162,9 +161,10 @@ std::vector<Boid>& GameManager::GetBoids()
 	return m_boids;
 }
 
-Boid GameManager::MakeBoid() const
+Boid GameManager::MakeBoid()
 {
-	return Boid(m_boidMesh, m_defaultShader, glm::vec2(0.0f, 0.0f));
+	++m_boidIDCounter;
+	return Boid(m_boidIDCounter, m_boidMesh, m_defaultShader, glm::vec2(0.0f, 0.0f));
 }
 
 

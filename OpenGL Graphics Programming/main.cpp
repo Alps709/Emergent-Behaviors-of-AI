@@ -13,7 +13,6 @@
 
 GameManager* myGameManager = nullptr;
 
-
 void Render();
 void Update();
 
@@ -177,7 +176,7 @@ void ProcessInput()
 	}
 
 	//Enter key is pressed
-	if (Input::KeyState[49] == Input::INPUT_DOWN || Input::KeyState[49] == Input::INPUT_DOWN_FIRST)
+	if (Input::KeyState[49] == Input::INPUT_DOWN_FIRST)
 	{
 		//Start game from menu by pressing the enter key
 		if (GameManager::m_gameState == GAME_PLAY)
@@ -191,7 +190,7 @@ void ProcessInput()
 	}
 
 	//Enter key is pressed
-	if (Input::KeyState[50] == Input::INPUT_DOWN || Input::KeyState[50] == Input::INPUT_DOWN_FIRST)
+	if (Input::KeyState[50] == Input::INPUT_DOWN_FIRST)
 	{
 		//Start game from menu by pressing the enter key
 		if (GameManager::m_gameState == GAME_PLAY)
@@ -202,6 +201,20 @@ void ProcessInput()
 		}
 		//The key is has now been processed for a frame, so set it to the appropriate state
 		Input::KeyState[50] = Input::INPUT_DOWN;
+	}
+
+	//Enter key is pressed
+	if (Input::KeyState[51] == Input::INPUT_DOWN_FIRST)
+	{
+		//Start game from menu by pressing the enter key
+		if (GameManager::m_gameState == GAME_PLAY)
+		{
+			//Set game state to play
+			GameManager::m_gameplayState = PLAY_FLOCK;
+			myGameManager->m_boidStateText->SetText("Behavior: Flocking");
+		}
+		//The key is has now been processed for a frame, so set it to the appropriate state
+		Input::KeyState[51] = Input::INPUT_DOWN;
 	}
 
 	////Move the camera up with the space button

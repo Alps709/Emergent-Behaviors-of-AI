@@ -4,8 +4,9 @@
 #include "GameManager.h"
 
 
-Boid::Boid(Mesh* _mesh, Shader* _shader, glm::vec2 _position) : Object(_mesh, _shader,  _position)
+Boid::Boid(int _boidID, Mesh* _mesh, Shader* _shader, glm::vec2 _position) : Object(_mesh, _shader,  _position)
 {
+	m_boidID = _boidID;
 	m_position = glm::vec2(0.0f, 0.0f);
 	m_velocity = glm::vec2(0.0, 0.0f);
 	m_acceleration = glm::vec2(0.0f, 0.0f);
@@ -40,17 +41,26 @@ void Boid::Process(GameplayState& _gameState, std::vector<Boid> _boids, int _mou
 	{
 		Arrive(glm::vec2(_mouseX, _mouseY));
 	}
-	//else if(GameManager::m_gameplayState == )
+	else if (GameManager::m_gameplayState == PLAY_FLOCK)
+	{
+		Separation(_boids);
+		Cohesion(_boids);
+		Alignment(_boids);
+		Seek(glm::vec2(_mouseX, _mouseY));
+	}
 
 	//Apply acceleration
+	Math::LimitVector2D(m_acceleration, m_maxAcceleration);
 	m_velocity += m_acceleration;
 
+	Math::LimitVector2D(m_velocity, m_maxSpeed);
 	//Apply velocity to movement (affected by delta time)
 	m_position += m_velocity * static_cast<float>(_deltaTime);
 
 	//Reset acceleration every update
 	m_acceleration *= 0.0f;
 
+	//Have the boid loop back tot he other side if it oes off screen
 	WrapPos();
 
 	//Update model matrix so the boid faces in the direction it is moving
@@ -63,10 +73,10 @@ void Boid::SetShaderUniforms(glm::mat4 _pvm) const
 	m_shader->SetUniformMat4f("u_PVM", _pvm);
 }
 
-void Boid::ApplyForce(glm::vec2 _force)
+void Boid::ApplyForces(glm::vec2 _force)
 {
-	//Use this when your objects have mass
-	//m_acceleration = _force / m_mass;
+	m_acceleration += _force;
+	Math::LimitVector2D(m_acceleration, m_maxAcceleration);
 }
 
 void Boid::WrapPos()
@@ -80,6 +90,7 @@ void Boid::WrapPos()
 	{
 		m_position.x = Utils::HSCREEN_WIDTH;
 	}
+
 	if (m_position.y > Utils::HSCREEN_HEIGHT)
 	{
 		m_position.y = -Utils::HSCREEN_HEIGHT;
@@ -98,11 +109,10 @@ void Boid::Seek(glm::vec2 _target)
 	//Limit the magnitude to max speed
 	Math::LimitVector2D(desiredVec, m_maxSpeed);
 
-	glm::vec2 steeringVec = desiredVec - m_velocity;
-	Math::LimitVector2D(steeringVec, m_maxForce);
+	glm::vec2 steeringForce = desiredVec - m_velocity;
+	Math::LimitVector2D(steeringForce, m_maxForce);
 
-	m_acceleration += steeringVec;
-	Math::LimitVector2D(m_acceleration, m_maxAcceleration);
+	m_acceleration += steeringForce;
 }
 
 void Boid::Arrive(glm::vec2 _target)
@@ -129,20 +139,26 @@ void Boid::Arrive(glm::vec2 _target)
 	glm::vec2 steeringForce = desiredVec - m_velocity;
 	Math::LimitVector2D(steeringForce, m_maxForce);
 
+	//Apply steering force
 	m_acceleration += steeringForce;
-	Math::LimitVector2D(m_acceleration, m_maxAcceleration);
 }
 
-void Boid::Allignment(std::vector<Boid>& _boids)
+
+void Boid::Flocking(glm::vec2 _target, std::vector<Boid>& _boids)
+{
+	return Alignment(_boids);
+}
+
+void Boid::Alignment(std::vector<Boid>& _boids)
 {
 	int count = 0;
 	glm::vec2 sum;
 	for(auto& boid : _boids)
 	{
-		if(&boid == this)
+		if (boid.m_boidID != this->m_boidID)
 		{
 			glm::vec2 distance = boid.m_position - this->m_position;
-			if(glm::length(distance) <= m_boidColliderRadius)
+			if(glm::length(distance) <= m_boidViewRadius * m_aligmentWeighting)
 			{
 				sum += boid.m_velocity;
 				count++;
@@ -150,16 +166,78 @@ void Boid::Allignment(std::vector<Boid>& _boids)
 		}
 	}
 
+	glm::vec2 steeringForce;
 	if(count > 0)
 	{
 		sum /= count;
 
 		//Apply and limit steering force
-		glm::vec2 steeringForce = sum - m_velocity;
-		Math::LimitVector2D(steeringForce, m_maxForce);
-
-		//Apply and limit acceleration
-		m_acceleration += steeringForce;
-		Math::LimitVector2D(m_acceleration, m_maxAcceleration);
+		steeringForce = sum - m_velocity;
 	}
+
+	Math::LimitVector2D(steeringForce, m_maxForce);
+	m_acceleration += steeringForce;
+}
+
+void Boid::Separation(std::vector<Boid>& _boids)
+{
+	int count = 0;
+	glm::vec2 sum;
+	for (auto& boid : _boids)
+	{
+		if (boid.m_boidID != this->m_boidID)
+		{
+			glm::vec2 distance = boid.m_position - this->m_position;
+			if (glm::length(distance) <= m_boidViewRadius)
+			{
+				distance /= glm::length(distance) * glm::length(distance);
+				sum += distance;
+				count++;
+			}
+		}
+	}
+
+	glm::vec2 steeringForce;
+	if (count > 0)
+	{
+		sum /= count;
+
+		//Apply and limit steering force
+		steeringForce = sum - m_velocity;
+	}
+
+	Math::LimitVector2D(steeringForce, m_maxSeperationForce);
+
+	//Math::LimitVector2D(steeringForce, m_maxForce);
+	m_acceleration += -steeringForce;
+}
+
+void Boid::Cohesion(std::vector<Boid>& _boids)
+{
+	int count = 0;
+	glm::vec2 sum;
+	for (auto& boid : _boids)
+	{
+		if (boid.m_boidID != this->m_boidID)
+		{
+			glm::vec2 distance = boid.m_position - this->m_position;
+			if (glm::length(distance) >= m_boidViewRadius + 20)
+			{
+				sum += boid.m_velocity;
+				count++;
+			}
+		}
+	}
+
+	glm::vec2 steeringForce;
+	if (count > 0)
+	{
+		sum /= count;
+
+		//Apply and limit steering force
+		steeringForce = sum - m_velocity;
+	}
+
+	Math::LimitVector2D(steeringForce, m_maxForce);
+	m_acceleration += steeringForce;
 }
