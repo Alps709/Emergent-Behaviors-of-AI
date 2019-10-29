@@ -7,12 +7,12 @@ enum GameplayState;
 class Boid final : public Object
 {
 public:
-	Boid(Mesh* _mesh, Shader* _shader, glm::vec2 _position, std::vector<Boid>& _boids);
+	Boid(Mesh* _mesh, Shader* _shader, glm::vec2 _position);
 	~Boid() = default;
 	
 	void Render(Camera& _myCamera) override;
 
-	void Process(GameplayState& _gameState, int _mouseX, int _mouseY, double _deltaTime);
+	void Process(GameplayState& _gameState, std::vector<Boid> _boids, int _mouseX, int _mouseY, double _deltaTime);
 
 	void SetShaderUniforms(glm::mat4 _pvm) const;
 
@@ -24,11 +24,9 @@ public:
 
 	void Seek(glm::vec2 _target);
 	void Arrive(glm::vec2 _target);
-	void Allignment();
+	void Allignment(std::vector<Boid>& _boids);
 
 private:
-	std::vector<Boid>& m_boids;
-
 	CClock m_boidClock;
 
 	glm::vec2 m_velocity;

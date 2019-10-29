@@ -4,12 +4,11 @@
 #include "GameManager.h"
 
 
-Boid::Boid(Mesh* _mesh, Shader* _shader, glm::vec2 _position, std::vector<Boid>& _boids) : Object(_mesh, _shader,  _position)
+Boid::Boid(Mesh* _mesh, Shader* _shader, glm::vec2 _position) : Object(_mesh, _shader,  _position)
 {
 	m_position = glm::vec2(0.0f, 0.0f);
 	m_velocity = glm::vec2(0.0, 0.0f);
 	m_acceleration = glm::vec2(0.0f, 0.0f);
-	m_boids = _boids;
 }
 
 void Boid::Render(Camera& _myCamera)
@@ -31,7 +30,7 @@ void Boid::Render(Camera& _myCamera)
 	Mesh::Unbind();
 }
 
-void Boid::Process(GameplayState& _gameState, int _mouseX, int _mouseY, double _deltaTime)
+void Boid::Process(GameplayState& _gameState, std::vector<Boid> _boids, int _mouseX, int _mouseY, double _deltaTime)
 {
 	if (GameManager::m_gameplayState == PLAY_SEEK)
 	{
@@ -41,6 +40,7 @@ void Boid::Process(GameplayState& _gameState, int _mouseX, int _mouseY, double _
 	{
 		Arrive(glm::vec2(_mouseX, _mouseY));
 	}
+	//else if(GameManager::m_gameplayState == )
 
 	//Apply acceleration
 	m_velocity += m_acceleration;
@@ -133,11 +133,11 @@ void Boid::Arrive(glm::vec2 _target)
 	Math::LimitVector2D(m_acceleration, m_maxAcceleration);
 }
 
-void Boid::Allignment()
+void Boid::Allignment(std::vector<Boid>& _boids)
 {
 	int count = 0;
 	glm::vec2 sum;
-	for(auto& boid : GameManager::GetBoids())
+	for(auto& boid : _boids)
 	{
 		if(&boid == this)
 		{

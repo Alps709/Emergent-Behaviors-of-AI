@@ -118,7 +118,7 @@ void GameManager::Update(int _mousePosX, int _mousePosY)
 		//Render boids
 		for (Boid& boid : m_boids)
 		{
-			boid.Process(m_gameplayState, _mousePosX, _mousePosY, m_clock.GetDeltaTick());
+			boid.Process(m_gameplayState, m_boids, _mousePosX, _mousePosY, m_clock.GetDeltaTick());
 		}
 	}
 
