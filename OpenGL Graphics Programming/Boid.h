@@ -22,12 +22,12 @@ public:
 
 	void WrapPos();
 
-	void Seek(glm::vec2 _target);
-	void Arrive(glm::vec2 _target);
-	void Flocking(glm::vec2 _target, std::vector<Boid>& _boids);
-	void Alignment(std::vector<Boid>& _boids);
-	void Separation(std::vector<Boid>& _boids);
-	void Cohesion(std::vector<Boid>& _boids);
+	glm::vec2 Seek(glm::vec2 _target);
+	glm::vec2 Arrive(glm::vec2 _target);
+	glm::vec2 Flocking(glm::vec2 _target, std::vector<Boid>& _boids);
+	glm::vec2 Alignment(std::vector<Boid>& _boids);
+	glm::vec2 Separation(std::vector<Boid>& _boids);
+	glm::vec2 Cohesion(std::vector<Boid>& _boids);
 
 private:
 	int m_boidID;
@@ -37,12 +37,11 @@ private:
 	glm::vec2 m_acceleration;
 	glm::vec2 m_force;
 
-	const float m_maxSpeed = 0.5f;
-	const float m_maxAcceleration = 0.075f;
-	const float m_maxForce = 0.01f;
-	const float m_maxSeperationForce = 0.075f;
-	const float m_aligmentWeighting = 0.1;
+	const float m_maxSpeed = 1.0f;
+	const float m_maxAcceleration = 0.15f;
+	const float m_maxForce = 0.02f;
+	const float m_maxSeperationForce = 0.05f;
 
-	double m_boidViewRadius = 100.0f;
+	double m_boidViewRadius = 60.0f;
 };
 
