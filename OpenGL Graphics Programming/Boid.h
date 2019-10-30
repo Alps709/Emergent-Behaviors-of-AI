@@ -43,6 +43,7 @@ private:
 	const float m_maxSeperationForce = 0.05f;
 
 	double m_boidViewRadius = 60.0f;
+	double m_boidArriveViewRadius = 600.0f;
 	double m_boidCohesionViewRadius = 200.0f;
 };
 

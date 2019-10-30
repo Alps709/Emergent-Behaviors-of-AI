@@ -121,9 +121,9 @@ glm::vec2 Boid::Arrive(glm::vec2 _target)
 	desiredVec = glm::normalize(desiredVec);
 
 	//Distance in pixels
-	if (desiredVecLength <= 250)
+	if (desiredVecLength <= m_boidArriveViewRadius)
 	{
-		const float arriveSpeed = Utils::remap(desiredVecLength, 0.0f, 250.0f, 0.0f, m_maxSpeed);
+		const float arriveSpeed = Utils::remap(desiredVecLength, 0.0f, m_boidArriveViewRadius, 0.0f, m_maxSpeed);
 		desiredVec *= arriveSpeed;
 	}
 	else
