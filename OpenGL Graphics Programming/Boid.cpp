@@ -142,7 +142,10 @@ glm::vec2 Boid::Arrive(glm::vec2 _target)
 
 glm::vec2 Boid::Flocking(glm::vec2 _target, std::vector<Boid>& _boids)
 {
-	return Alignment(_boids) + Separation(_boids) + Cohesion(_boids); //+ Seek(_target);
+	return Alignment(_boids) +
+		Separation(_boids) + 
+		Cohesion(_boids)
+		/*Seek(_target)*/;
 }
 
 glm::vec2 Boid::Alignment(std::vector<Boid>& _boids)
@@ -189,7 +192,7 @@ glm::vec2 Boid::Separation(std::vector<Boid>& _boids)
 			{
 				glm::vec2 diff = this->m_position - boid.m_position;
 				glm::normalize(diff);
-				diff = diff / (glm::length(diff) * 0.75f);
+				//diff = diff / (glm::length(diff));
 				sum += diff;
 				count++;
 			}
@@ -218,7 +221,7 @@ glm::vec2 Boid::Cohesion(std::vector<Boid>& _boids)
 		if (boid.m_boidID != this->m_boidID)
 		{
 			float distance =  glm::length(boid.m_position - this->m_position);
-			if (distance <= m_boidViewRadius)
+			if (distance <= m_boidCohesionViewRadius)
 			{
 				sum += boid.m_position;
 				count++;

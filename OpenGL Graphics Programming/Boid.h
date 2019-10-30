@@ -37,11 +37,12 @@ private:
 	glm::vec2 m_acceleration;
 	glm::vec2 m_force;
 
-	const float m_maxSpeed = 1.0f;
+	const float m_maxSpeed = 1.25f;
 	const float m_maxAcceleration = 0.15f;
 	const float m_maxForce = 0.02f;
 	const float m_maxSeperationForce = 0.05f;
 
 	double m_boidViewRadius = 60.0f;
+	double m_boidCohesionViewRadius = 200.0f;
 };
 
