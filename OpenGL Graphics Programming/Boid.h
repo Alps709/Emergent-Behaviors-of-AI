@@ -24,7 +24,7 @@ public:
 
 	std::vector<glm::vec2> m_pathPoints;
 
-	float m_pathRadius = 1;
+	float m_pathRadius = 10;
 };
 
 class Boid final : public Object
@@ -72,9 +72,11 @@ private:
 	const float m_maxPathForce = 0.5f;
 
 	const float m_maxSeperationForce = 0.05f;
+	const float m_maxPathSeperationForce = 0.15f;
 
-	double m_boidViewRadius = 60.0f;
+	double m_boidViewRadius = 40.0f;
 	double m_boidArriveViewRadius = 600.0f;
+	double m_boidAlignmentViewRadius = 90.0f;
 	double m_boidCohesionViewRadius = 200.0f;
 };
 

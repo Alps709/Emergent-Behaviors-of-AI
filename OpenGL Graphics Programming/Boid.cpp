@@ -252,7 +252,7 @@ glm::vec2 Boid::Alignment(std::vector<Boid>& _boids)
 		if (boid.m_boidID != this->m_boidID)
 		{
 			float distance = glm::length(boid.m_position - this->m_position);
-			if (distance <= m_boidViewRadius)
+			if (distance <= m_boidAlignmentViewRadius)
 			{
 				sum += boid.m_velocity;
 				count++;
@@ -266,11 +266,11 @@ glm::vec2 Boid::Alignment(std::vector<Boid>& _boids)
 		sum /= count;
 
 		//Apply and limit steering force
-		Math::LimitVector2D(sum, m_maxSpeed);
+		//Math::LimitVector2D(sum, m_maxSpeed);
 		steeringForce = sum - m_velocity;
 	}
 	
-	Math::LimitVector2D(steeringForce, m_maxForce);
+	//Math::LimitVector2D(steeringForce, m_maxForce);
 	return steeringForce;
 }
 
@@ -286,7 +286,7 @@ glm::vec2 Boid::Separation(std::vector<Boid>& _boids)
 			if (glm::length(distance) <= m_boidViewRadius)
 			{
 				glm::vec2 diff = this->m_position - boid.m_position;
-				glm::normalize(diff);
+				//glm::normalize(diff);
 				//diff = diff / (glm::length(diff));
 				sum += diff;
 				count++;
@@ -300,9 +300,9 @@ glm::vec2 Boid::Separation(std::vector<Boid>& _boids)
 		sum /= count;
 
 		//Apply and limit steering force
-		Math::LimitVector2D(sum, m_maxSpeed);
+		//Math::LimitVector2D(sum, m_maxSpeed);
 		steeringForce = sum - m_velocity;
-		Math::LimitVector2D(steeringForce, m_maxSeperationForce);
+		//Math::LimitVector2D(steeringForce, m_maxSeperationForce);
 	}
 	return steeringForce;
 }
