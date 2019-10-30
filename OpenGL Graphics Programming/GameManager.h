@@ -22,7 +22,8 @@ enum GameplayState
 	PLAY_ARRIVE = 1,
 	PLAY_PURSUE = 2,
 	PLAY_EVADE = 3,
-	PLAY_FLOCK = 4
+	PLAY_FOLLOWPATH = 4,
+	PLAY_FLOCK = 5
 };
 
 class GameManager
@@ -43,6 +44,8 @@ public:
 
 	inline static GameState m_gameState = GAME_MENU;
 	inline static GameplayState m_gameplayState = PLAY_SEEK;
+
+	
 
 private:
 	//Game variables

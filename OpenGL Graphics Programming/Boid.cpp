@@ -1,15 +1,34 @@
 #include "Boid.h"
-#include "Utils.h"
 #include "Math.h"
 #include "GameManager.h"
 
+namespace glm
+{
+	//Returns the angle between two vectors
+	float AngleBetween(glm::vec2 _a, glm::vec2 _b)
+	{
+		return acos(glm::dot(_a, _b) / (glm::length(_a) * glm::length(_b)));
+	}
+
+	glm::vec2 LineNormalPoint(glm::vec2 _p, glm::vec2 _a, glm::vec2 _b)
+	{
+		glm::vec2 ap = _p - _a;
+		glm::vec2 ab = _b - _a;
+
+		ab = glm::normalize(ab);
+		ab *= glm::dot(ab, ap);
+
+		return _a + ab;
+	}
+}
 
 Boid::Boid(int _boidID, Mesh* _mesh, Shader* _shader, glm::vec2 _position) : Object(_mesh, _shader,  _position)
 {
 	m_boidID = _boidID;
 	m_position = glm::vec2(0.0f, 0.0f);
 	m_velocity = glm::vec2(0.0, 0.0f);
-	m_acceleration = glm::vec2(0.0f, 0.0f);
+	m_acceleration = glm::vec2(0.0f, 0.0f); 
+	m_path = Path();
 }
 
 void Boid::Render(Camera& _myCamera)
@@ -41,16 +60,37 @@ void Boid::Process(GameplayState& _gameState, std::vector<Boid> _boids, int _mou
 	{
 		m_acceleration += Arrive(glm::vec2(_mouseX, _mouseY));
 	}
+	else if (GameManager::m_gameplayState == PLAY_FOLLOWPATH)
+	{
+		m_acceleration += FollowPath(m_path);
+	}
 	else if (GameManager::m_gameplayState == PLAY_FLOCK)
 	{
 		m_acceleration += Flocking(glm::vec2(_mouseX, _mouseY), _boids);
 	}
 
 	//Apply acceleration
-	Math::LimitVector2D(m_acceleration, m_maxAcceleration);
+	//Limit acceleration based on game play state
+	if (GameManager::m_gameplayState == PLAY_FOLLOWPATH)
+	{
+		Math::LimitVector2D(m_acceleration, m_maxPathAcceleration);
+	}
+	else
+	{
+		Math::LimitVector2D(m_acceleration, m_maxAcceleration);
+	}
 	m_velocity += m_acceleration;
 
-	Math::LimitVector2D(m_velocity, m_maxSpeed);
+	//Limit velocity based on game play state
+	if(GameManager::m_gameplayState == PLAY_FOLLOWPATH)
+	{
+		Math::LimitVector2D(m_velocity, m_maxPathSpeed);
+	}
+	else
+	{
+		Math::LimitVector2D(m_velocity, m_maxSpeed);
+	}
+	
 	//Apply velocity to movement (affected by delta time)
 	m_position += m_velocity * static_cast<float>(_deltaTime);
 
@@ -107,8 +147,17 @@ glm::vec2 Boid::Seek(glm::vec2 _target)
 	Math::LimitVector2D(desiredVec, m_maxSpeed);
 
 	glm::vec2 steeringForce = desiredVec - m_velocity;
-	Math::LimitVector2D(steeringForce, m_maxForce);
 
+	if(GameManager::m_gameplayState == PLAY_FOLLOWPATH)
+	{
+		Math::LimitVector2D(steeringForce, m_maxPathForce);
+		
+	}
+	else
+	{
+		Math::LimitVector2D(steeringForce, m_maxForce);
+	}
+	
 	return steeringForce;
 }
 
@@ -137,6 +186,52 @@ glm::vec2 Boid::Arrive(glm::vec2 _target)
 	Math::LimitVector2D(steeringForce, m_maxForce);
 
 	return steeringForce;
+}
+
+glm::vec2 Boid::FollowPath(Path _path)
+{
+	//Keep the distance of the closest normal
+	float lowestDistance = 10000;
+	
+	//Point to move towards
+	glm::vec2 targetPoint;
+
+	const glm::vec2 predictedPosition = m_position + (glm::normalize(m_velocity) * 25.0f);
+
+	//Check distance for the normal of each path segment
+	for(int i = 0; i < m_path.m_pathPoints.size() - 1; ++i)
+	{
+		glm::vec2 a = m_path.m_pathPoints[i];
+		glm::vec2 b = m_path.m_pathPoints[i + 1];
+
+		glm::vec2 normalPoint = glm::LineNormalPoint(predictedPosition, a, b);
+
+		//Is normal on the path (only works for paths that go to the right)
+		if(normalPoint.x > b.x || normalPoint.x < a.x)
+		{
+			//Set normal for this segment to be the end of the segment
+			//as the actual normal is not on the path
+			normalPoint = b;
+		}
+
+		float distance = glm::length(predictedPosition - normalPoint);
+
+		if (distance < lowestDistance)
+		{
+			lowestDistance = distance;
+
+			//Set the target position on the line to 50 pixels ahead of the normalPoint
+			glm::vec2 direction = b - a;
+			targetPoint = normalPoint + (glm::normalize(direction) * 50.0f);
+		}
+	}
+
+	//Seek to the point on the line
+	if (lowestDistance > m_path.m_pathRadius)
+	{
+		return Seek(targetPoint);
+	}
+	return glm::vec2{ 0.0f, 0.0f };
 }
 
 

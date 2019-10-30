@@ -183,7 +183,7 @@ void ProcessInput()
 		{
 			//Set game state to play
 			GameManager::m_gameplayState = PLAY_SEEK;
-			myGameManager->m_boidStateText->SetText("Behavior: Seek");
+			myGameManager->m_boidStateText->SetText("Behaviour: Seek");
 		}
 		//The key is has now been processed for a frame, so set it to the appropriate state
 		Input::KeyState[49] = Input::INPUT_DOWN;
@@ -197,7 +197,7 @@ void ProcessInput()
 		{
 			//Set game state to play
 			GameManager::m_gameplayState = PLAY_ARRIVE;
-			myGameManager->m_boidStateText->SetText("Behavior: Arrive");
+			myGameManager->m_boidStateText->SetText("Behaviour: Arrive");
 		}
 		//The key is has now been processed for a frame, so set it to the appropriate state
 		Input::KeyState[50] = Input::INPUT_DOWN;
@@ -211,10 +211,24 @@ void ProcessInput()
 		{
 			//Set game state to play
 			GameManager::m_gameplayState = PLAY_FLOCK;
-			myGameManager->m_boidStateText->SetText("Behavior: Flocking");
+			myGameManager->m_boidStateText->SetText("Behaviour: Flocking");
 		}
 		//The key is has now been processed for a frame, so set it to the appropriate state
 		Input::KeyState[51] = Input::INPUT_DOWN;
+	}
+
+	//Enter key is pressed
+	if (Input::KeyState[52] == Input::INPUT_DOWN_FIRST)
+	{
+		//Start game from menu by pressing the enter key
+		if (GameManager::m_gameState == GAME_PLAY)
+		{
+			//Set game state to play
+			GameManager::m_gameplayState = PLAY_FOLLOWPATH;
+			myGameManager->m_boidStateText->SetText("Behaviour: Path Following");
+		}
+		//The key is has now been processed for a frame, so set it to the appropriate state
+		Input::KeyState[52] = Input::INPUT_DOWN;
 	}
 
 	////Move the camera up with the space button

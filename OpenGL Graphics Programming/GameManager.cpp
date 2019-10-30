@@ -150,6 +150,28 @@ void GameManager::Render()
 		}
 
 		m_boidStateText->Render();
+
+		if (m_gameplayState == PLAY_FOLLOWPATH)
+		{
+			std::vector<glm::vec2> path;
+			path.push_back(glm::vec2((-Utils::HSCREEN_WIDTH)/ Utils::HSCREEN_WIDTH, 0));
+			path.push_back(glm::vec2((-Utils::HSCREEN_WIDTH/2)/ Utils::HSCREEN_WIDTH, (Utils::HSCREEN_HEIGHT/ 2)/ Utils::HSCREEN_HEIGHT));
+			path.push_back(glm::vec2((Utils::HSCREEN_WIDTH/2)/ Utils::HSCREEN_WIDTH, (-Utils::HSCREEN_HEIGHT/ 2)/ Utils::HSCREEN_HEIGHT));
+			path.push_back(glm::vec2((Utils::HSCREEN_WIDTH)/ Utils::HSCREEN_WIDTH, 0));
+
+			//Check distance for the normal of each path segment
+			for (int i = 0; i < path.size() - 1; ++i)
+			{
+				glm::vec2 a = path[i];
+				glm::vec2 b = path[i + 1];
+
+				glBegin(GL_LINES);
+				glColor3f(0.0f, 0.0f, 0.0f);
+				glVertex3f(a.x, a.y, 0.0f);
+				glVertex3f(b.x, b.y, 0.0f);
+				glEnd();
+			}
+		}
 	}
 
 	glutSwapBuffers();
