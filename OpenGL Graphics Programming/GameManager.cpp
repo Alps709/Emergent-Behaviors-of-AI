@@ -29,6 +29,7 @@ GameManager::GameManager()
 
 	//Create the text objects
 	m_boidStateText = new TextLabel("Behaviour: Seek", "Resources/Fonts/arial.ttf", glm::vec2(-Utils::HSCREEN_WIDTH + 20.0f, Utils::HSCREEN_HEIGHT - 40.0f));
+	m_containmentStateText = new TextLabel("Containment: Off", "Resources/Fonts/arial.ttf", glm::vec2(-Utils::HSCREEN_WIDTH + 20.0f, Utils::HSCREEN_HEIGHT - 80.0f));
 	m_menuTitleText = new TextLabel("The Boid Game!", "Resources/Fonts/kirbyss.ttf", glm::vec2(-625, 200), glm::vec3(0.0f, 1.0f, 1.0f), 2.8f);
 	m_menuInstructText = new TextLabel("Press enter to play", "Resources/Fonts/kirbyss.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
 
@@ -47,6 +48,7 @@ GameManager::~GameManager()
 	m_yeatSound->release();
 	m_audioSystem->release();
 	delete m_boidStateText;
+	delete m_containmentStateText;
 	delete m_menuTitleText;
 	delete m_menuInstructText;
 	delete m_backgroundMesh;
@@ -117,7 +119,7 @@ void GameManager::Update(int _mousePosX, int _mousePosY)
 		//Render boids
 		for (Boid& boid : m_boids)
 		{
-			boid.Process(m_gameplayState, m_boids, _mousePosX, _mousePosY, m_clock.GetDeltaTick());
+			boid.Process(m_gameplayState, m_boids, m_containment, _mousePosX, _mousePosY, m_clock.GetDeltaTick());
 		}
 	}
 
@@ -150,6 +152,7 @@ void GameManager::Render()
 		}
 
 		m_boidStateText->Render();
+		m_containmentStateText->Render();
 
 		if (m_gameplayState == PLAY_FOLLOWPATH)
 		{

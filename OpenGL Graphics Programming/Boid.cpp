@@ -50,7 +50,7 @@ void Boid::Render(Camera& _myCamera)
 	Mesh::Unbind();
 }
 
-void Boid::Process(GameplayState& _gameState, std::vector<Boid> _boids, int _mouseX, int _mouseY, double _deltaTime)
+void Boid::Process(GameplayState& _gameState, std::vector<Boid> _boids, bool _containment, int _mouseX, int _mouseY, double _deltaTime)
 {
 	if (GameManager::m_gameplayState == PLAY_SEEK)
 	{
@@ -98,8 +98,15 @@ void Boid::Process(GameplayState& _gameState, std::vector<Boid> _boids, int _mou
 	m_acceleration *= 0.0f;
 
 	//Have the boid loop back to the other side if it goes off screen
-	WrapPos();
-
+	if(_containment)
+	{
+		ContainPos();
+	}
+	else
+	{
+		WrapPos();
+	}
+	
 	//Update model matrix so the boid faces in the direction it is moving
 	SetPRS(m_position.x, m_position.y, glm::degrees(std::atan2(m_velocity.y, m_velocity.x)) - 90, 1.0f, 1.0f);
 }
@@ -123,7 +130,7 @@ void Boid::WrapPos()
 	{
 		m_position.x = -Utils::HSCREEN_WIDTH;
 	}
-	if (m_position.x < -Utils::HSCREEN_WIDTH)
+	else if (m_position.x < -Utils::HSCREEN_WIDTH)
 	{
 		m_position.x = Utils::HSCREEN_WIDTH;
 	}
@@ -132,9 +139,35 @@ void Boid::WrapPos()
 	{
 		m_position.y = -Utils::HSCREEN_HEIGHT;
 	}
-	if (m_position.y < -Utils::HSCREEN_HEIGHT)
+	else if (m_position.y < -Utils::HSCREEN_HEIGHT)
 	{
 		m_position.y = Utils::HSCREEN_HEIGHT;
+	}
+}
+
+void Boid::ContainPos()
+{
+	//Have the boids reverse their velocity when they go off screen
+	if (m_position.x > Utils::HSCREEN_WIDTH)
+	{
+		m_position.x = Utils::HSCREEN_WIDTH;
+		m_velocity.x *= -1;
+	}
+	else if (m_position.x < -Utils::HSCREEN_WIDTH)
+	{
+		m_position.x = -Utils::HSCREEN_WIDTH;
+		m_velocity.x *= -1;
+	}
+
+	if (m_position.y > Utils::HSCREEN_HEIGHT)
+	{			   					  
+		m_position.y = Utils::HSCREEN_HEIGHT;
+		m_velocity.y *= -1;
+	}			   
+	else if (m_position.y < -Utils::HSCREEN_HEIGHT)
+	{			   					   
+		m_position.y = -Utils::HSCREEN_HEIGHT;
+		m_velocity.y *= -1;
 	}
 }
 

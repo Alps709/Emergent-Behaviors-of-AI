@@ -45,7 +45,6 @@ int main(int argc, char ** argv)
 
 	myGameManager = new GameManager();
 	
-
 	//KeyBoard input function callbacks
 	glutKeyboardFunc(Input::KeyBoardDown);
 	glutKeyboardUpFunc(Input::KeyBoardUp);
@@ -161,6 +160,17 @@ void ProcessInput()
 	//	Input::KeyState['d'] = Input::INPUT_DOWN;
 	//	Input::KeyState['D'] = Input::INPUT_DOWN;
 	//}
+	//
+	if (Input::KeyState['c'] == Input::INPUT_DOWN_FIRST ||
+		Input::KeyState['C'] == Input::INPUT_DOWN_FIRST)
+	{
+		myGameManager->GetContainment() = !myGameManager->GetContainment();
+		myGameManager->m_containmentStateText->SetText((myGameManager->GetContainment()) ? "Containment: On" : "Containment: Off");
+
+		//The key is has now been processed for a frame, so set it to the appropriate state
+		Input::KeyState['c'] = Input::INPUT_DOWN;
+		Input::KeyState['C'] = Input::INPUT_DOWN;
+	}
 
 	//Enter key is pressed
 	if (Input::KeyState[13] == Input::INPUT_DOWN || Input::KeyState[13] == Input::INPUT_DOWN_FIRST)
@@ -257,14 +267,17 @@ void ProcessInput()
 	{	//Left click
 		if (GameManager::m_gameState == GAME_PLAY)
 		{
-			myGameManager->GetBoids().push_back(myGameManager->MakeBoid());
+			if (myGameManager->GetBoids().size() < 50)
+			{
+				myGameManager->GetBoids().push_back(myGameManager->MakeBoid());
+			}
 		}
 		Input::MouseState[0] = Input::INPUT_DOWN;
 	}
 
 	if (Input::MouseState[2] == Input::INPUT_DOWN_FIRST/* || Input::MouseState[2] == Input::INPUT_DOWN*/)
 	{ //Right click
-		if (GameManager::m_gameState == GAME_PLAY && !myGameManager->GetBoids().empty())
+		if (GameManager::m_gameState == GAME_PLAY && myGameManager->GetBoids().size() > 1)
 		{
 			myGameManager->GetBoids().pop_back();
 		}

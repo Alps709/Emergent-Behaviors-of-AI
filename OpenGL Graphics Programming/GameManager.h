@@ -20,10 +20,8 @@ enum GameplayState
 {
 	PLAY_SEEK = 0,
 	PLAY_ARRIVE = 1,
-	PLAY_PURSUE = 2,
-	PLAY_EVADE = 3,
-	PLAY_FOLLOWPATH = 4,
-	PLAY_FLOCK = 5
+	PLAY_FOLLOWPATH = 2,
+	PLAY_FLOCK = 3
 };
 
 class GameManager
@@ -37,15 +35,16 @@ public:
 	void Update(int _mousePosX, int _mousePosY);
 	void Render();
 
+	bool& GetContainment() { return m_containment; }
 	std::vector<Boid>& GetBoids();
 	Boid MakeBoid();
 
 	TextLabel* m_boidStateText = nullptr;
+	TextLabel* m_containmentStateText = nullptr;
+
 
 	inline static GameState m_gameState = GAME_MENU;
 	inline static GameplayState m_gameplayState = PLAY_SEEK;
-
-	
 
 private:
 	//Game variables
@@ -60,6 +59,7 @@ private:
 
 	///Objects
 	//Boids
+	bool m_containment = false;
 	int m_boidIDCounter = 0;
 	std::vector<Boid> m_boids;
 	Mesh* m_boidMesh = nullptr;

@@ -35,7 +35,7 @@ public:
 	
 	void Render(Camera& _myCamera) override;
 
-	void Process(GameplayState& _gameState, std::vector<Boid> _boids, int _mouseX, int _mouseY, double _deltaTime);
+	void Process(GameplayState& _gameState, std::vector<Boid> _boids, bool _containment, int _mouseX, int _mouseY, double _deltaTime);
 
 	void SetShaderUniforms(glm::mat4 _pvm) const;
 
@@ -44,6 +44,7 @@ public:
 	void ApplyForces(glm::vec2 _force);
 
 	void WrapPos();
+	void ContainPos();
 
 	glm::vec2 Seek(glm::vec2 _target);
 	glm::vec2 Arrive(glm::vec2 _target);
