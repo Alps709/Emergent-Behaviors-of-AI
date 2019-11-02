@@ -62,7 +62,7 @@ void Boid::Process(GameplayState& _gameState, std::vector<Boid> _boids, int _mou
 	}
 	else if (GameManager::m_gameplayState == PLAY_FOLLOWPATH)
 	{
-		m_acceleration += FollowPath(m_path);
+		m_acceleration += FollowPath(m_path) + Separation(_boids);
 	}
 	else if (GameManager::m_gameplayState == PLAY_FLOCK)
 	{
@@ -97,7 +97,7 @@ void Boid::Process(GameplayState& _gameState, std::vector<Boid> _boids, int _mou
 	//Reset acceleration every update
 	m_acceleration *= 0.0f;
 
-	//Have the boid loop back tot he other side if it oes off screen
+	//Have the boid loop back to the other side if it goes off screen
 	WrapPos();
 
 	//Update model matrix so the boid faces in the direction it is moving
@@ -297,12 +297,10 @@ glm::vec2 Boid::Separation(std::vector<Boid>& _boids)
 	glm::vec2 steeringForce;
 	if (count > 0)
 	{
+		//Calculate average of all the vectors
 		sum /= count;
-
-		//Apply and limit steering force
-		//Math::LimitVector2D(sum, m_maxSpeed);
+		//Calculate the steering force
 		steeringForce = sum - m_velocity;
-		//Math::LimitVector2D(steeringForce, m_maxSeperationForce);
 	}
 	return steeringForce;
 }

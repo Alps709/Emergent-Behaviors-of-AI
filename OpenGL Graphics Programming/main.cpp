@@ -253,7 +253,7 @@ void ProcessInput()
 	//}
 
 	//Mouse Input
-	if (Input::MouseState[0] == Input::INPUT_DOWN_FIRST || Input::MouseState[0] == Input::INPUT_DOWN)
+	if (Input::MouseState[0] == Input::INPUT_DOWN_FIRST/* || Input::MouseState[0] == Input::INPUT_DOWN*/)
 	{	//Left click
 		if (GameManager::m_gameState == GAME_PLAY)
 		{
@@ -262,11 +262,14 @@ void ProcessInput()
 		Input::MouseState[0] = Input::INPUT_DOWN;
 	}
 
-	//if (Input::MouseState[2] == Input::INPUT_DOWN_FIRST)
-	//{ //Right click
-
-	//	Input::MouseState[2] = Input::INPUT_DOWN;
-	//}
+	if (Input::MouseState[2] == Input::INPUT_DOWN_FIRST/* || Input::MouseState[2] == Input::INPUT_DOWN*/)
+	{ //Right click
+		if (GameManager::m_gameState == GAME_PLAY && !myGameManager->GetBoids().empty())
+		{
+			myGameManager->GetBoids().pop_back();
+		}
+		Input::MouseState[2] = Input::INPUT_DOWN;
+	}
 }
 
 void SetGlobalGLSettings()

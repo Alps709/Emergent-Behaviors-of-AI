@@ -62,17 +62,16 @@ private:
 	glm::vec2 m_acceleration;
 	glm::vec2 m_force;
 
-	const float m_maxSpeed = 0.75f;
+	const float m_maxSpeed = 0.5f;
 	const float m_maxPathSpeed = 0.25f;
 
 	const float m_maxAcceleration = 0.0075f;
 	const float m_maxPathAcceleration = 0.05f;
 
-	const float m_maxForce = 0.02f;
-	const float m_maxPathForce = 0.5f;
+	const float m_maxForce = 0.025f;
+	const float m_maxPathForce = 0.1f;
 
 	const float m_maxSeperationForce = 0.05f;
-	const float m_maxPathSeperationForce = 0.15f;
 
 	double m_boidViewRadius = 40.0f;
 	double m_boidArriveViewRadius = 600.0f;
