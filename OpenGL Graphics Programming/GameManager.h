@@ -30,7 +30,7 @@ public:
 	GameManager();
 	~GameManager();
 
-	void AudioInitialise();
+	//void AudioInitialise();
 
 	void Update(int _mousePosX, int _mousePosY);
 	void Render();
@@ -41,7 +41,6 @@ public:
 
 	TextLabel* m_boidStateText = nullptr;
 	TextLabel* m_containmentStateText = nullptr;
-
 
 	inline static GameState m_gameState = GAME_MENU;
 	inline static GameplayState m_gameplayState = PLAY_SEEK;

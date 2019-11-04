@@ -12,7 +12,7 @@ GameManager::GameManager()
 	m_clock.Initialise();
 
 	//Start audio system
-	AudioInitialise();
+	//AudioInitialise();
 
 	//Create defaut shader
 	m_defaultShader = new Shader();
@@ -58,56 +58,56 @@ GameManager::~GameManager()
 	delete m_camera;
 }
 
-void GameManager::AudioInitialise()
-{
-
-	FMOD_RESULT result;
-	//Initialise the m_audioSystem
-	result = FMOD::System_Create(&m_audioSystem);
-	if (result != FMOD_OK)
-	{
-		std::cout << "Audio system failed to initialise!";
-		return;
-	}
-
-	result = m_audioSystem->init(100, FMOD_INIT_NORMAL | FMOD_INIT_3D_RIGHTHANDED, 0);
-	if (result != FMOD_OK)
-	{
-		std::cout << "Audio system failed to initialise!";
-	}
-	else
-	{
-		result = m_audioSystem->createSound("Resources/Audio/yeat.wav", FMOD_DEFAULT, 0, &m_yeatSound);
-		if (result != FMOD_OK)
-		{
-			std::cout << "Failed to load sound: yeat.wav" << std::endl;
-		}
-
-		result = m_audioSystem->createSound("Resources/Audio/shoop.wav", FMOD_DEFAULT, 0, &m_shoopSound);
-		if (result != FMOD_OK)
-		{
-			std::cout << "Failed to load sound: shoop.wav" << std::endl;
-		}
-
-		//Create background music
-		//result = m_audioSystem->createSound("Resources/Audio/Jet Set Run.mp3", FMOD_LOOP_NORMAL, 0, &m_trackBackground);
-		//if (result != FMOD_OK)
-		//{
-		//	std::cout << "Failed to load sound: Jet Set Run.mp3" << std::endl;
-		//}
-		//else
-		//{
-		//	//Created sound
-		//	//Start playing background music
-		//	const FMOD_RESULT play = m_audioSystem->playSound(m_trackBackground, 0, false, 0);
-		//	if (play != FMOD_OK)
-		//	{
-		//		std::cout << "Failed to play background track: You Say Run.mp3" << std::endl;
-		//	}
-		//}
-	}
-
-}
+//void GameManager::AudioInitialise()
+//{
+//
+//	FMOD_RESULT result;
+//	//Initialise the m_audioSystem
+//	result = FMOD::System_Create(&m_audioSystem);
+//	if (result != FMOD_OK)
+//	{
+//		std::cout << "Audio system failed to initialise!";
+//		return;
+//	}
+//
+//	result = m_audioSystem->init(100, FMOD_INIT_NORMAL | FMOD_INIT_3D_RIGHTHANDED, 0);
+//	if (result != FMOD_OK)
+//	{
+//		std::cout << "Audio system failed to initialise!";
+//	}
+//	else
+//	{
+//		result = m_audioSystem->createSound("Resources/Audio/yeat.wav", FMOD_DEFAULT, 0, &m_yeatSound);
+//		if (result != FMOD_OK)
+//		{
+//			std::cout << "Failed to load sound: yeat.wav" << std::endl;
+//		}
+//
+//		result = m_audioSystem->createSound("Resources/Audio/shoop.wav", FMOD_DEFAULT, 0, &m_shoopSound);
+//		if (result != FMOD_OK)
+//		{
+//			std::cout << "Failed to load sound: shoop.wav" << std::endl;
+//		}
+//
+//		//Create background music
+//		//result = m_audioSystem->createSound("Resources/Audio/Jet Set Run.mp3", FMOD_LOOP_NORMAL, 0, &m_trackBackground);
+//		//if (result != FMOD_OK)
+//		//{
+//		//	std::cout << "Failed to load sound: Jet Set Run.mp3" << std::endl;
+//		//}
+//		//else
+//		//{
+//		//	//Created sound
+//		//	//Start playing background music
+//		//	const FMOD_RESULT play = m_audioSystem->playSound(m_trackBackground, 0, false, 0);
+//		//	if (play != FMOD_OK)
+//		//	{
+//		//		std::cout << "Failed to play background track: You Say Run.mp3" << std::endl;
+//		//	}
+//		//}
+//	}
+//
+//}
 
 void GameManager::Update(int _mousePosX, int _mousePosY)
 {
@@ -162,7 +162,7 @@ void GameManager::Render()
 			path.push_back(glm::vec2((Utils::HSCREEN_WIDTH/2)/ Utils::HSCREEN_WIDTH, (-Utils::HSCREEN_HEIGHT/ 2)/ Utils::HSCREEN_HEIGHT));
 			path.push_back(glm::vec2((Utils::HSCREEN_WIDTH)/ Utils::HSCREEN_WIDTH, 0));
 
-			//Check distance for the normal of each path segment
+			//Draw a line from each point of the path to the next
 			for (int i = 0; i < path.size() - 1; ++i)
 			{
 				glm::vec2 a = path[i];

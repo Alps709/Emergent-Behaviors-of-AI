@@ -44,11 +44,11 @@ public:
 	void ApplyForces(glm::vec2 _force);
 
 	void WrapPos();
-	void ContainPos();
+	void Containment();
 
 	glm::vec2 Seek(glm::vec2 _target);
 	glm::vec2 Arrive(glm::vec2 _target);
-	glm::vec2 FollowPath(Path _path);
+	glm::vec2 PathFollowing(Path _path);
 	glm::vec2 Flocking(glm::vec2 _target, std::vector<Boid>& _boids);
 	glm::vec2 Alignment(std::vector<Boid>& _boids);
 	glm::vec2 Separation(std::vector<Boid>& _boids);

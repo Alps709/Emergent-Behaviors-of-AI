@@ -62,7 +62,7 @@ void Boid::Process(GameplayState& _gameState, std::vector<Boid> _boids, bool _co
 	}
 	else if (GameManager::m_gameplayState == PLAY_FOLLOWPATH)
 	{
-		m_acceleration += FollowPath(m_path) + Separation(_boids);
+		m_acceleration += PathFollowing(m_path) + Separation(_boids);
 	}
 	else if (GameManager::m_gameplayState == PLAY_FLOCK)
 	{
@@ -100,7 +100,7 @@ void Boid::Process(GameplayState& _gameState, std::vector<Boid> _boids, bool _co
 	//Have the boid loop back to the other side if it goes off screen
 	if(_containment)
 	{
-		ContainPos();
+		Containment();
 	}
 	else
 	{
@@ -145,7 +145,7 @@ void Boid::WrapPos()
 	}
 }
 
-void Boid::ContainPos()
+void Boid::Containment()
 {
 	//Have the boids reverse their velocity when they go off screen
 	if (m_position.x > Utils::HSCREEN_WIDTH)
@@ -200,17 +200,17 @@ glm::vec2 Boid::Arrive(glm::vec2 _target)
 	glm::vec2 desiredVec = _target - m_position;
 	float desiredVecLength = glm::length(desiredVec);
 
-	desiredVec = glm::normalize(desiredVec);
-
 	//Distance in pixels
 	if (desiredVecLength <= m_boidArriveViewRadius)
 	{
 		const float arriveSpeed = Utils::remap(desiredVecLength, 0.0f, m_boidArriveViewRadius, 0.0f, m_maxSpeed);
+		desiredVec = glm::normalize(desiredVec);
 		desiredVec *= arriveSpeed;
 	}
 	else
 	{
 		//Limit the magnitude to max speed
+		desiredVec = glm::normalize(desiredVec);
 		Math::LimitVector2D(desiredVec, m_maxSpeed);
 	}
 
@@ -221,10 +221,10 @@ glm::vec2 Boid::Arrive(glm::vec2 _target)
 	return steeringForce;
 }
 
-glm::vec2 Boid::FollowPath(Path _path)
+glm::vec2 Boid::PathFollowing(Path _path)
 {
-	//Keep the distance of the closest normal
-	float lowestDistance = 10000;
+	//Keep the distance of the closest normal (Set it high to begin with)
+	float lowestDistance = 100000;
 	
 	//Point to move towards
 	glm::vec2 targetPoint;
