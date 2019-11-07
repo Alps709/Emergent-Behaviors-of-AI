@@ -203,7 +203,7 @@ glm::vec2 Boid::Arrive(glm::vec2 _target)
 	//Distance in pixels
 	if (desiredVecLength <= m_boidArriveViewRadius)
 	{
-		const float arriveSpeed = Utils::remap(desiredVecLength, 0.0f, m_boidArriveViewRadius, 0.0f, m_maxSpeed);
+		const float arriveSpeed = (float)Utils::remap(desiredVecLength, 0.0f, m_boidArriveViewRadius, 0.0f, m_maxSpeed);
 		desiredVec = glm::normalize(desiredVec);
 		desiredVec *= arriveSpeed;
 	}
@@ -262,6 +262,7 @@ glm::vec2 Boid::PathFollowing(Path _path)
 	//Seek to the point on the line
 	if (lowestDistance > m_path.m_pathRadius)
 	{
+		//Return the steering force towards the point
 		return Seek(targetPoint);
 	}
 	return glm::vec2{ 0.0f, 0.0f };

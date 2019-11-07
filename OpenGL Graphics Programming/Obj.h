@@ -4,14 +4,13 @@
 
 namespace Objects
 {
-	//Scrolling texture
 	static std::vector<float> verticesBoid =
 	{
 		///Bottom right quad
 		//Position			    //Colour			      //Texture co-ords
 		  0.0f,  20.0f, 0.0f,   255.0f, 0.0f, 0.0f, 1.0f,   0.0f, 0.0f,    //Middle top
-		-10.0f, -10.0f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f,   0.0f, 0.0f,    //Bottom left
-		 10.0f, -10.0f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f,   0.0f, 0.0f,    //Bottom right
+		-10.0f, -10.0f, 0.0f,   255.0f, 0.0f, 0.0f, 1.0f,   0.0f, 0.0f,    //Bottom left
+		 10.0f, -10.0f, 0.0f,   255.0f, 0.0f, 0.0f, 1.0f,   0.0f, 0.0f,    //Bottom right
 	};
 
 	static std::vector<unsigned int> indicesBoid =
@@ -20,7 +19,6 @@ namespace Objects
 		0, 2, 1,
 	};
 
-	//Scrolling texture
 	static std::vector<float> verticesBackground =
 	{
 		///Bottom right quad

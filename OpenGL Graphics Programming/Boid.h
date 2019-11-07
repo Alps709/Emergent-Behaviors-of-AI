@@ -56,7 +56,6 @@ public:
 
 private:
 	int m_boidID;
-	CClock m_boidClock;
 	Path m_path;
 
 	glm::vec2 m_velocity;
@@ -72,10 +71,9 @@ private:
 	const float m_maxForce = 0.025f;
 	const float m_maxPathForce = 0.1f;
 
-	const float m_maxSeperationForce = 0.05f;
-
+	//Used to balance difference behaviours
 	double m_boidViewRadius = 40.0f;
-	double m_boidArriveViewRadius = 600.0f;
+	double m_boidArriveViewRadius = 500.0f;
 	double m_boidAlignmentViewRadius = 90.0f;
 	double m_boidCohesionViewRadius = 200.0f;
 };
