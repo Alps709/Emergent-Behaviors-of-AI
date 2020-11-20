@@ -5,10 +5,15 @@ https://en.wikipedia.org/wiki/Boids
 It is created using C++ and OpenGL to render the boids in a window.
 
 Controls:
+
 1 - Seek
+
 2 - Arrive
+
 3 - Flocking
+
 4 - (Crowd) Path Following
+
 c - Containment
 
 
