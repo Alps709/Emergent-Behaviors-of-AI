@@ -1,2 +1,6 @@
 # Emergent-Behaviors-of-AI
-A program that demonstrates different emergent behaviors from artificial intelligence algorithms
+This program implements the famous bird flocking behaviours first created by Craig Reynolds.
+https://en.wikipedia.org/wiki/Boids
+
+It is created using C++ and OpenGL to render the boids in a window.
+
