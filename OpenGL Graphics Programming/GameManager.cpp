@@ -133,7 +133,7 @@ void GameManager::Update(int _mousePosX, int _mousePosY)
 void GameManager::Render()
 {
 	//Clear the screen before every frame
-	Renderer::Clear();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Draw background
 	m_backgroundObject.Render(*m_camera);

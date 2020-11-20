@@ -16,9 +16,6 @@
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{2951005c-2f8f-4c26-b86d-53bfe886c7c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\RenderEngine">
-      <UniqueIdentifier>{e95e59c5-527d-475e-92c8-6667e1548d50}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\RenderEngine">
       <UniqueIdentifier>{1b3be459-bcbb-47c0-82c9-d2e3849afe99}</UniqueIdentifier>
     </Filter>
@@ -54,12 +51,6 @@
     <ClCompile Include="clock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files\RenderEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="MasterRenderer.cpp">
-      <Filter>Source Files\RenderEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\Object stuff</Filter>
     </ClCompile>
@@ -74,9 +65,6 @@
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Pill.cpp">
-      <Filter>Source Files\Characters</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Object stuff</Filter>
