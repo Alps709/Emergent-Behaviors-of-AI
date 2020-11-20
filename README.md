@@ -4,7 +4,7 @@ https://en.wikipedia.org/wiki/Boids
 
 It is created using C++ and OpenGL to render the boids in a window.
 
-Controls:
+# Controls:
 
 1 - Seek
 
@@ -17,28 +17,34 @@ Controls:
 c - Containment
 
 
-Implemented behaviours:
+# Implemented behaviours:
 
-Simple:
+### Simple behaviours:
+
 Seek
+
 Arrive
+
 Containment
+
 Path following
 
-Complex:
+### Complex:
+
 Flocking
+
 Group path following
 
 
-How each behaviour was implemented:
+# How each behaviour was implemented:
 
-Seek:
+## Seek:
 Find the vector from the boid position to the target position by subtracting the boid position vector from the target position vector.
 This gives you the desired directional vector to the target. You can then find the vector for the steering force by substracting the boid velocity from the desired direction vector.
 You then apply the directional steering force vector to the acceleration vector of the boid, so that it accelerates towards the target.
 The new acceleration vector of the boid must be recalculated starting from 0, each update.
 
-Arrive:
+## Arrive:
 Done the same as Seek, except it limits the magnitude of the desired vector based on the boid's distance from the target. 
 It then subtracts the boid velocity from the desired vector to get the steering force in the same way as Seek. 
 So if the desired vector is limited to a magnitude of 0.1, then a current velocity of 1 is subtracted, 
@@ -47,7 +53,7 @@ So that this resulting steering force counters the current velocity the closer i
 The boid also has a max force limit, so if the incoming velocity is too high, 
 the counter force may be limited to a point where it is not strong enough to counter the velocity in time, and it will over shoot the target before coming back around and stopping.
 
-Containment:
+## Containment:
 For containment I check whether each axis position of the boid is outside of the container, and if it is, 
 I then set the position on that axis back to the edge of the container, and then reverse the boids velocity on that axis.
 
@@ -56,7 +62,7 @@ It finds the next predicted position of the boid and then finds the closest norm
 Once it finds the closest normal to any of the path segments, it then finds a position further along the path from that normal to seek towards. 
 We want to Seek a bit ahead of the normal so that if the boid is perpendicular to the path, it will turn to move along the path rather than going back and forward over one spot on it.
 
-Flocking:
+## Flocking:
 Flocking uses 3 combined behaviours.
 
 1. Alignment: This is done by getting the velocities of all other boids within the current boids alignment view radius, 
