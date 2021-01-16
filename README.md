@@ -57,7 +57,7 @@ the counter force may be limited to a point where it is not strong enough to cou
 For containment I check whether each axis position of the boid is outside of the container, and if it is, 
 I then set the position on that axis back to the edge of the container, and then reverse the boids velocity on that axis.
 
-Path following:
+## Path following:
 It finds the next predicted position of the boid and then finds the closest normal to that predicted position, from the multiple path segments.
 Once it finds the closest normal to any of the path segments, it then finds a position further along the path from that normal to seek towards. 
 We want to Seek a bit ahead of the normal so that if the boid is perpendicular to the path, it will turn to move along the path rather than going back and forward over one spot on it.
