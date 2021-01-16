@@ -69,8 +69,8 @@ Flocking uses 3 combined behaviours.
 and then summing all those velocities together into a vector, then dividing that vector by the number of boids that it used. 
 This gives you an average velocity of all those boids within the view radius, which you then find a steering force for by subtracting your current velocity from this new average velocity.
 
-2. Separation: This is done by finding all vectors of boids within the view radius, that point from each of those boids to the current boid.
-So for each other boid the current boid can see, you subtract the other boids position from the current one, this gives you a vector pointing from other other boid ot the current boid.
+2. Separation: This is done by finding all position vectors of boids within the view radius, that point from each of those boids to the current boid.
+So for each other boid that the current boid can see, you subtract the other boids position from the current one, this gives you a vector pointing from the other boid to the current boid.
 You do this for each other boid the current one can see, and you sum them all together. 
 You then divide that summed vector by the amount of boids it could see, and this gives you the average of all vectors pointing from the other boids to the current one.
 If you then subtract the velocity of the current boid, from the averaged velocity, then it will give you a steering force pointing the current boid away from all the other boids.
